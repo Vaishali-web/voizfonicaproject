@@ -1,0 +1,175 @@
+<head>
+   <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+      />
+      <link rel="stylesheet" href="/media/range-slider.css">
+
+      
+</head>
+<body>
+   <br/>
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <p >
+            <h1 style="text-align: center">Usage Simulator</h1>
+            </p>
+         </div>
+      </div>
+      <br/>
+      <div class="row">
+         <div class="col-md-12">
+            <form method="get">
+               <p style="text-align: center">
+                  Select user <br/>
+                  <select name="userid" onchange="this.form.submit()">
+                     {% if accounts_phone == None %}
+                     <option>
+                        Select
+                     </option>
+                     {% endif %}
+                     {% for user in users %}
+                     <option>
+                        {{user.phone_number}}
+                     </option>
+                     {% endfor %}
+                  </select>
+               </p>
+               {% if accounts_phone %}
+               <p style="text-align: center">
+                  Select account <br/>
+                  <select name="account_phone" onchange="this.form.submit()">
+                     {% if plan_name == None %}
+                     <option>
+                        Select
+                     </option>
+                     {% endif %}
+                     {% for account in accounts_phone %}
+                     <option value="{{account.phone_number}}">
+                        {{account.account_type}} - {{account.phone_number}}
+                     </option>
+                     {% endfor %}
+                  </select>
+               </p>
+               {% endif %}
+               {% if plan_name %}
+               <p style="text-align: center">
+                  Select plan <br/>
+                  <select name="plan_id" onchange="this.form.submit()">
+                     {% if max_usage == None %}
+                     <option>
+                        Select
+                     </option>
+                     {% endif %}
+                     {% for plan in plan_name %}
+                     <option value="{{plan.id}}">
+                        {{plan.plans_name}}
+                     </option>
+                     {% endfor %}
+                  </select>
+               </p>
+               {% endif %}
+               <br/><br/>
+               {% if max_usage %}
+            <div style="text-align: center;">
+               <div id="slider">
+                  Calls:  
+                  0 <input class="slide" type="range" name="calls"
+                     min="0" max="{{max_usage.calls}}" step="1" value="{{current_usage.calls}}"
+                     onchange="updateSlidercalls(this.value)" data-rangeSlider/> {{max_usage.calls}}
+                  <div id="chosencalls" class="chosen">{{current_usage.calls}}</div>
+               </div>
+               <br/>
+               <div id="slider">
+                  Data:  
+                  0 <input class="slide" type="range" name="data"
+                     min="0" max="{{max_usage.data}}" step="1" value="{{current_usage.data}}"
+                     onchange="updateSliderdata(this.value)" data-rangeSlider /> {{max_usage.data}}
+                  <div id="chosendata" class="chosen">{{current_usage.data}}</div>
+               </div>
+               <br/>
+               <div id="slider">
+                  SMS:  
+                  0 <input class="slide" type="range" name="sms"
+                     min="0" max="{{max_usage.sms}}" step="1" value="{{current_usage.sms}}"
+                     onchange="updateSlidersms(this.value)" data-rangeSlider/> {{max_usage.sms}}
+                  <div id="chosensms" class="chosen">{{current_usage.sms}}</div>
+               </div>
+               <br/><br/>
+
+               <button type="submit" class="btn btn-success">Update usage</button>
+               </div>
+               {% endif %}
+            </form>
+         </div>
+      </div>
+   </div>
+   <script>
+      function updateSlidercalls(slideAmount) {
+        document.getElementById("chosencalls").innerHTML=slideAmount;
+      }
+      
+      function updateSliderdata(slideAmount) {
+        document.getElementById("chosendata").innerHTML=slideAmount;
+      }
+      
+      function updateSlidersms(slideAmount) {
+        document.getElementById("chosensms").displaysms.innerHTML=slideAmount;
+      }
+   </script>
+
+   <script src="/media/range-slider.min.js"></script>
+
+   <script language="javascript">
+   var slider = document.querySelectorAll('input[type="range"]');
+rangeSlider.create(slider, {
+  polyfill: true,   // Boolean, if true, custom markup will be created
+  rangeClass: 'rangeSlider',
+  disabledClass: 'rangeSlider--disabled',
+  fillClass: 'rangeSlider__fill',
+  bufferClass: 'rangeSlider__buffer',
+  handleClass: 'rangeSlider__handle',
+  startEvent: ['mousedown', 'touchstart', 'pointerdown'],
+  moveEvent: ['mousemove', 'touchmove', 'pointermove'],
+  endEvent: ['mouseup', 'touchend', 'pointerup'],
+  min: null,      // Number , 0
+  max: null,      // Number, 100
+  step: null,     // Number, 1
+  value: null,    // Number, center of slider
+  buffer: null,     // Number, in percent, 0 by default
+  stick: null,       // [Number stickTo, Number stickRadius]
+  borderRadius: 10  // Number, if you use buffer + border-radius in css for looks good,
+  onInit: function () {
+    console.info('onInit')
+  },
+  onSlideStart: function (position, value) {
+    console.info('onSlideStart', 'position: ' + position, 'value: ' + value);
+  },
+  onSlide: function (position, value) {
+    console.log('onSlide', 'position: ' + position, 'value: ' + value);
+  },
+  onSlideEnd: function (position, value) {
+    console.warn('onSlideEnd', 'position: ' + position, 'value: ' + value);
+  }
+});
+   </script>
+
+   <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+      ></script>
+   <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+      ></script>
+   <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+      ></script>
+</body>
