@@ -1,0 +1,92 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+  />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div style="margin: 45px">
+    <div class="alert alert-success">
+      <h3 style="text-align: center">New connection approval</h3>
+    </div>
+    <br /><br /><br />
+    <table
+      id="displaytable"
+      class="table table-striped table-bordered"
+      style="width:100%"
+    >
+      <thead>
+        <tr>
+          <th>Application Number</th>
+          <th>First Name</th>
+          <!-- <th>Last Name</th> -->
+          <!-- <th>City</th> -->
+          <!-- <th>State</th> -->
+          <th>Zip</th>
+          <th>Email</th>
+          <!-- <th>Password</th> -->
+          <!-- <th>Proof</th> -->
+          <!-- <th>Proof Number</th> -->
+          <!-- <th>Proof File</th> -->
+          <th>Connection Type</th>
+          <!-- <th>Address</th> -->
+          <th>Dongleselected</th>
+          <th>Current mobile number</th>
+          <th>Current network</th>
+          <!-- <th>Upc</th> -->
+          <!-- <th>Requested date time</th> -->
+          <!-- <th>Status</th> -->
+          <!-- <th>Circle</th> -->
+          <th>Approval Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in a %}
+        <tr>
+          <td>{{ b.application_number }}</td>
+          <td>{{ b.first_name }}</td>
+
+          <!-- <td>{{b.last_name}}</td> -->
+          <!-- <td>{{b.city}}</td> -->
+          <!-- <td>{{b.state}}</td> -->
+          <td>{{ b.zip }}</td>
+          <td>{{ b.email }}</td>
+          <!-- <td>{{b.password}}</td> -->
+          <!-- <td>{{b.proof}}</td> -->
+          <!-- <td>{{b.proofnumber}}</td> -->
+          <!-- <td>{{b.proofFile}}</td> -->
+          <td>{{ b.connectiontype }}</td>
+          <!-- <td>{{b.address}}</td> -->
+          <td>{{ b.dongleselected }}</td>
+          <td>{{ b.current_mobile_number }}</td>
+          <td>{{ b.current_network }}</td>
+          <!-- <td>{{b.upc}}</td> -->
+          <!-- <td>{{b.requested_date_time}}</td> -->
+          <!-- <td>{{b.status}}</td> -->
+          <!-- <td>{{b.circle}}</td> -->
+
+          <td>
+            <a
+              class="btn btn-primary"
+              href="viewindividual?search2={{ b.application_number }}"
+            >
+              View
+            </a>
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+  <script src=" https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</body>
+
+<script>
+  $(document).ready(function() {
+    $("#displaytable").DataTable();
+  });
+</script>

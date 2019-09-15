@@ -1,0 +1,177 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+        
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 24px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+        
+        form.example button:hover {
+            background: #0b7dda;
+        }
+        
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <p style="text-align: center; color:#0b7dda">Search for your application number here!!!</p>
+    <form class="example" action="/connection/display/viewindividual" style="margin:auto;max-width:300px">
+        <input type="text" placeholder="Search.." name="search2">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+
+    <div class="container">{% if a|length == 0 %}
+        <br>
+        <div class="alert alert-info" style="text-align: center">
+            <strong>Search not found!!!</strong>
+        </div>
+        {% else %}
+        <table id="displaytable" class="table table-striped table-bordered" style="width:100%;margin:30px">
+            <tbody>
+                {% for b in a %}
+                <tr>
+                    <td>Application Number</td>
+                    <td>{{b.application_number}}</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td>{{b.first_name}}</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>{{b.last_name}}</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>{{b.city}}</td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td>{{b.state}}</td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td>{{b.zip}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{b.email}}</td>
+                </tr>
+
+                <tr>
+                    <td>Proof</td>
+                    <td>{{b.proof}}</td>
+                </tr>
+                <tr>
+                    <td>Proof Number</td>
+                    <td>{{b.proofnumber}}</td>
+                </tr>
+                <tr>
+                    <td>Proof File</td>
+                    <td><a href="http://127.0.0.1:8000{{b.proofFile}}">{{b.proofFile}}</a></td>
+                </tr>
+                <tr>
+                    <td>Connection Type</td>
+                    <td>{{b.connectiontype}}</td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>{{b.address}}</td>
+                </tr>
+                <tr>
+                    <td>Dongle selected</td>
+                    <td>VF 999</td>
+                </tr>
+                <tr>
+                    <td>Current mobile number</td>
+                    <td>{{b.current_mobile_number}}</td>
+                </tr>
+                <tr>
+                    <td>Current network</td>
+                    <td>{{b.current_network}}</td>
+                </tr>
+                <tr>
+                    <td>Upc</td>
+                    <td>{{b.upc}}</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>{{b.status}}</td>
+                </tr>
+                <tr>
+                    <td>Circle</td>
+                    <td>{{b.circle}}</td>
+                </tr>
+                <tr>
+                    <td>Approval Status</td>
+                    <td>
+                        <form method="post" action="/connection/approve/">
+                            {%csrf_token%}
+                            <input type="hidden" name="app_id" value={{b.application_number}}>
+                            <button type="submit" class="btn btn-primary">Approve</button>
+                        </form>
+                    </td>
+                </tr>
+
+
+                </tr>
+                {%endfor%} {%endif%}
+            </tbody>
+
+        </table>
+    </div>
+    <script src=" https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</body>
+
+
+<script>
+    $(document).ready(function() {
+        $('#displaytable').DataTable();
+    });
+</script>
+
+<!-- <script type="text/javascript">
+    document.getElementById('appln_no').onsubmit = function() {
+        
+            a = Connection.objects.filter(application_number = application_number)
+        return render(request, "individualdetails.html", {
+            'a': a
+        })
+    }
+</script> -->
